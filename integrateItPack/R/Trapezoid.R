@@ -107,8 +107,10 @@ setMethod(f="plot",
           signature="Trapezoid",
           # create function
           definition=function(x=NULL, y=x, ...){
+            # sort x and y vectors
             yVec <- sort(x@yVec)
             xVec <- sort(x@xVec)
+            # retain the number of subdivisions
             n <- x@n
             # check validity
             validObject(x)
