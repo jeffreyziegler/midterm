@@ -1,43 +1,46 @@
-#' Create an object of class 'Candidate'
+#' Perform numeric integration
 #'
-#' Function creates an object of class `Candidate' and determines the number of
-#' delegates the candidate needs to win their party's presidential nomination.
+#' Function creates an object of class 'Simpson' or 'Trapezoid' and determines the numeric
+#' integral performing using the specified rule.
 #'
-#' @param name Name of the presidential candidate (character string). 
-#' @param delegatesWon Number of delegates won by given candidate (numeric).
-#' @param party Party of given candidate, 'Republican' or 'Democrat' (character string).
+#' @param xVec Vector containing x values (numeric vector).
+#' @param yVec Vector containing x values (numeric vector).
+#' @param rule Clarify which rule, Simpson's or Trapezoid, will be used (character).
 #'
 #' @return An object of class 'Candidate' containing
 #' \itemize{
-#' \item name Name of the presidential candidate (character string).
-#' \item delegatesWon Number of delegates won by given candidate (numeric).
-#' \item party Party of given candidate, 'Republican' or 'Democrat' (character string).
-#' \item{delegatesNeeded} Number of delegates needed by given candidate to obtain nomination (numeric).
-#' Automatically determined when method is initialized with creation of a new instance of the class 'Candidate'.
-#'  }
+#' \item \code{xVec} Vector containing x values (numeric vector).
+#' \item \code{yVec} Vector containing x values (numeric vector).
+#' \item \code{a} Lower limit of integration (numeric).
+#' \item \code{b} Upper limit of integration (numeric).
+#' \item \code{rule} Clarify which rule, Simpson's or Trapezoid, will be used (character).
+#' }
 #' @author Jeff Ziegler
 #' @examples
 #' 
-#' newCandidate <-createCandidate("Martin O'Malley", 0, "Democratic") 
-#' newCandidate <- createCandidate("Ben Carson", 8, "Republican") 
+#' xTest <- as.numeric(c(1:10))
+#' yTest <- rep(1, 10)
+#' newTrap <- integrateIt(xVec = xTest, yVec = yTest, a = 1, b = 10, rule ="Trapezoid")
+#' print(newTrap)
 #' 
-#' @seealso \code{\link{Candidate}}
-#' @rdname createCandidate
-#' @aliases createCandidate,ANY-method
+#' @seealso \code{\link{Simpson}} \code{\link{Trapezoid}}
+#' @rdname integrateIt
+#' @aliases integrateIt,ANY-method
 #' @export
 # create generic for integrateIt
 setGeneric(name = "integrateIt",
            def=function(xVec, yVec, a, b, rule)
-          {standardGeneric("integrateIt")}
+           {standardGeneric("integrateIt")}
 )
 
 # create method
 setMethod(f="integrateIt",
           definition=function(xVec, yVec, a, b, rule){
+            # return object of class Simpson
             if(rule == "Simpson"){
-              # return object of class Candidate
               return(new("Simpson", xVec = xVec, yVec = yVec, a = a, b = b))
             }
+            # return object of class Trapezoid
             if(rule == "Trapezoid"){
               return(new("Trapezoid", xVec = xVec, yVec = yVec, a = a, b = b))
             }

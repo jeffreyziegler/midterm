@@ -49,6 +49,10 @@ setClass(Class="Trapezoid",
            if(is.null(object@a) | is.null(object@b)){
              stop("Please specify a defined area to integrate!")
            }
+           # make sure area to be integrated is specified
+           if(object@n %% 1 != 0 | object@n < 0){
+             stop("N must be a positive integer")
+           }
          }
 )
 #' @export
@@ -74,8 +78,9 @@ setMethod("initialize", "Trapezoid",
             # provide values of x to plug into function
             x <- seq(a, b, by=h)
             s <-  y[1] + 2*sum(y[2:n-1]) + y[n]
-            # assign s to object of class Trapezoid
+            # multiple s by outside product
             .Object@s <- s*(h/2)
+            # store the number of subdivisions
             .Object@n <- n
             # return values
             value=callNextMethod()
@@ -106,9 +111,16 @@ setMethod(f="plot",
             xVec <- sort(x@xVec)
             n <- x@n
             # check validity
-            plot(xVec, yVec, xlim = c(min(xVec) - 1, max(xVec) + 1), ylim = c(min(yVec)-1, max(yVec) + 5),
-                    xlab = "X", ylab = "f(x)", main = "Plot of function using the Trapezoid rule", pch=19)
-            segments(xVec[1:n], yVec[1:n], yVec[2:n], yVec[2:n], col="red")
+            validObject(x)
+            # open plot
+            plot(xVec, yVec,
+                 # set limits of plot
+                 xlim = c(min(xVec) - 1, max(xVec) + 1), ylim = c(min(yVec)-1, max(yVec) + 5),
+                 # set labels of plot
+                 xlab = "X", ylab = "f(x)", main = "Plot of function using the Trapezoid rule", pch=19)
+            # create trapezoid line overtop "function"
+            segments(xVec[1:n], yVec[1:n], yVec[2:n], yVec[2:n], col="blue")
+            # create n segments to show subdivisions
             segments(xVec, rep(0,n), xVec, yVec, col="black", lty=2)
           }  
 )

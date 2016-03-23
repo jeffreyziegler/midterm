@@ -6,9 +6,6 @@
 #' @author  Jeff Ziegler: \email{jeffreyziegler@@wustl.edu} 
 #' @examples 
 #' 
-#' newCandidate <- createCandidate("Ben Carson", 8, "Republican")
-#' str(newCandidate)
-#' propNeeded(newCandidate, 1396)
 #' 
 #' @seealso \code{\link{Trapezoid}}, \code{\link{Simpson}}, \code{\link{integrateIt}}, \code{\link{tolTest}}
 #'

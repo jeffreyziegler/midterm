@@ -22,13 +22,13 @@
 setClass(Class="Simpson",
          # specify input classes
          slots = c(
-                   xVec = "numeric",
-                   yVec = "numeric",
-                   a = "numeric",
-                   b = "numeric",
-                   n = "numeric",
-                   s = "numeric",
-                   rule = "character"
+           xVec = "numeric",
+           yVec = "numeric",
+           a = "numeric",
+           b = "numeric",
+           n = "numeric",
+           s = "numeric",
+           rule = "character"
          ),
          # set default values for slots
          prototype = prototype(
@@ -44,7 +44,7 @@ setClass(Class="Simpson",
          validity = function(object){
            # make sure input values are specified
            if(is.null(object@xVec) & is.null(object@yVec)){
-            stop("Please specify the x and y input values!")
+             stop("Please specify the x and y input values!")
            }
            # make sure area to be integrated is specified
            if(is.null(object@a) | is.null(object@b)){
@@ -69,26 +69,27 @@ setMethod("initialize", "Simpson",
             x <- sort(xVec)
             # specify n
             n <- length(x[x>=a & x<=b])
-              
-              # determine h, assume a < b
-              h <- (b-a)/n
-              # specify integration based on n
-              if (n == 2) {
-                s <- y[1] + y[2]
-              }
-              # define s if n==3
-              if (n == 3) {
-                s <- y[1] + 4*y[2] + y[3]
-              }
-              # define s for all other positive values of n
-              else {
-                s <- y[1] + y[n] + 2*sum(y[seq(3,n-2,by=2)]) + 4*sum(y[seq(2,n-1,by=2)])
-              }
-              
-              # multiply by outside fraction
-              .Object@n <- n
-              .Object@s <- s*(h/3)
-              
+            
+            # determine h, assume a < b
+            h <- (b-a)/n
+            # specify integration based on n
+            if (n == 2) {
+              s <- y[1] + y[2]
+            }
+            # define s if n==3
+            if (n == 3) {
+              s <- y[1] + 4*y[2] + y[3]
+            }
+            # define s for all other positive values of n
+            else {
+              s <- y[1] + y[n] + 2*sum(y[seq(3,n-2,by=2)]) + 4*sum(y[seq(2,n-1,by=2)])
+            }
+            
+            # multiply by outside fraction
+            .Object@s <- s*(h/3)
+            # store the number of subdivisions
+            .Object@n <- n
+            
             value=callNextMethod()
             return(value)
           }

@@ -1,12 +1,14 @@
-#' Calculate the proportion of delegates a given candidate needs to win nomination
+#' Calculate the numeric integral with a specified degree of tolerance
 #' 
-#' Function determines the proportion of remaining delegates a presidential candidate needs 
-#' to secure in order to win his party's nomination.
+#' Function that increases the number of intervals until the estimated integral is within the specified tolerance of the correct answer. 
 #'
-#' @param object An object of the class 'Candidate'.
-#' @param remainingDelegates Number of delegates not yet allocated in a given candidate's party primary (numeric).
+#' @param inputFunc Function to input into \code{tolTest} (function).
+#' @param a Number of delegates not yet allocated in a given candidate's party primary (numeric).
+#' @param b Lower limit of integration (numeric).
+#' @param tol The amount of tolerance between estimate and real integral (numeric).
+#' @param rule Clarify which rule with be used, Simpson's Rule or the Trapezoidal Rule (character).
 #' 
-#' @return Proportion of the delegates not yet allocated that a given candidate needs to win party's nomination (numeric).
+#' @return Returns the initial inputs, the partition size (final n), and absolute error of estimate (list).
 #' 
 #' @author Jeff Ziegler
 #' @examples
@@ -15,7 +17,6 @@
 #' @rdname tolTest
 #' @aliases tolTest,ANY-method
 #' @export
-# create generic function that executes method 
 # create generic for tolTest
 setGeneric(name = "tolTest",
            def=function(inputFunc, a, b, tol=1e-8, rule="Trapezoid")
