@@ -97,7 +97,7 @@ setMethod("initialize", "Simpson",
 #' @export
 # create method to print object of class Simpson
 setMethod(f="print",
-          # method for use with object of class Simpson
+          # object of class Simpson
           signature="Simpson",
           # create function
           definition=function(x){
@@ -106,4 +106,27 @@ setMethod(f="print",
             # print object of class Simpson
             show(x)
           }  
+)
+#' @export
+# create method to plot object of class Simpson
+setMethod(f="plot",
+          # object of class Simpson
+          signature="Simpson",
+          # open print function
+          definition=function(x=NULL, y=x, ...){
+            # sort x and y vectors
+            yVec <- sort(x@yVec)
+            xVec <- sort(x@xVec)
+            # retain the number of subdivisions
+            n <- x@n
+            # check validity
+            validObject(x)
+            
+            # open plot
+            plot(xVec, yVec,
+                 # set limits of plot
+                 xlim = c(min(xVec) - 1, max(xVec) + 1), ylim = c(min(yVec)-1, max(yVec) + 5),
+                 # set labels of plot
+                 xlab = "X", ylab = "f(x)", main = "Plot of function using Simpson's rule", pch=19)
+          }   
 )
