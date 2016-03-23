@@ -1,0 +1,76 @@
+#' Calculate the proportion of delegates a given candidate needs to win nomination
+#' 
+#' Function determines the proportion of remaining delegates a presidential candidate needs 
+#' to secure in order to win his party's nomination.
+#'
+#' @param object An object of the class 'Candidate'.
+#' @param remainingDelegates Number of delegates not yet allocated in a given candidate's party primary (numeric).
+#' 
+#' @return Proportion of the delegates not yet allocated that a given candidate needs to win party's nomination (numeric).
+#' 
+#' @author Jeff Ziegler
+#' @examples
+#' 
+#' @seealso \code{\link{Trapezoid}}, \code{\link{Simpson}}, \code{\link{integrateIt}}
+#' @rdname tolTest
+#' @aliases tolTest,ANY-method
+#' @export
+# create generic function that executes method 
+# create generic for tolTest
+setGeneric(name = "tolTest",
+           def=function(inputFunc, a, b, tol=1e-8, rule="Trapezoid")
+           {standardGeneric("tolTest")}
+)
+
+# create method
+setMethod(f="tolTest",
+          definition=function(inputFunc, a, b, tol=1e-8, rule="Trapezoid"){
+            # create initial n
+            n <- 4
+            # calculate h
+            h <- (b-a)/4
+            # retrieve x values from inputFunc
+            x <- seq(a, b, by=h)
+            y <- inputFunc(x)
+            # determine which rule to use
+            initialIntegrate <- function(y, h, n, rule) {
+              # Simpson's rule
+              if (rule == "Simpson") {
+                s <- y[1] + y[n+1] + 4*sum(y[seq(2,n,by=2)]) + 2 *sum(y[seq(3,n-1, by=2)])
+                s <- s*h/3
+              }
+              # Trapezoidal rule
+              else if (rule == "Trapezoid") {
+                s <- h * (y[1]/2 + sum(y[2:n]) + y[n+1]/2)
+              }	
+              # return the calulated integral
+              return(s)
+            }
+            # perform the initial integration
+            s <- initialIntegrate(y, h, n, rule)
+            # save value as initial integration
+            sInitial <- s
+            # update the difference specified by the tolerance
+            s.diff <- tol + 1
+            # begin while loop that continues until tolerance is met
+            while (s.diff > tol ) {
+              # replace new s with old one
+              sPrior <- s
+              # update n
+              n <- 2*n
+              # update h
+              h <- h/2
+              # reuse old function values
+              y[seq(1, n + 1, by = 2)] <- y
+              y[seq(2, n, by = 2)] <- sapply(seq(a + h, b - h, by = 2*h), inputFunc)
+              # redo integration
+              s <- initialIntegrate(y, h, n, rule)
+              # update the difference between new intergration and old
+              s.diff <- abs(s-sPrior)
+            }
+            # return items in a list
+            return(list(
+              "inputFunc" = inputFunc, "a" = a, "b" = b, "tol" = tol, "n" = n,
+              "absoluteError" = abs(sInitial - sPrior), rule = rule))
+          }
+)
