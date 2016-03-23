@@ -1,0 +1,20 @@
+Package: integrateItPack
+Type: Package
+Title: integrateItPack 
+Version: 1.0
+Date: 2016-03-18
+Author: Jeff Ziegler
+Maintainer: Jeff Ziegler <jeffreyziegler@wustl.edu>
+Description: The integrateItPack package takes a function and performs numeric integration using either the Trapezoidal rule or Simpson's rule.  
+License: GPL (>= 2)
+Depends:
+    methods
+RoxygenNote: 5.0.1
+Suggests:
+    devtools
+Collate:
+    'integrateItPack-package.R'
+    'integrateIt.R'
+    'Trapezoid.R'
+    'Simpson.R'
+    'tolTest.R'
