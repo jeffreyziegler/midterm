@@ -50,6 +50,10 @@ setClass(Class="Simpson",
            if(is.null(object@a) | is.null(object@b)){
              stop("Please specify a defined area to integrate!")
            }
+           # make sure n is even
+           if(object@n %% 2 != 0){
+             stop("N must be an even integer!")
+           }
          }
 )
 #' @export
