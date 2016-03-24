@@ -5,8 +5,8 @@ setwd("~/Documents/Git/Class/midterm")
 
 # create package skelton so it can find the package root
 # create package.skeleton only on first use
-package.skeleton(code_files = c("integrateItPack-package.R", "integrateIt.R", "Trapezoid.R", "Simpson.R",
-                 "tolTest.R"), name="integrateItPack")
+# package.skeleton(code_files = c("integrateItPack-package.R", "integrateIt.R", "Trapezoid.R", "Simpson.R",
+#                 "tolTest.R"), name="integrateItPack")
 
 # Run to create package
 current.code <- as.package("integrateItPack")
