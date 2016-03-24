@@ -5,7 +5,8 @@
 \alias{tolTest,ANY-method}
 \title{Calculate the numeric integral with a specified degree of tolerance}
 \usage{
-tolTest(inputFunc, a, b, tol = 1e-08, rule = "Trapezoid")
+tolTest(inputFunc, a, b, start = 4, tol = 1e-08, rule = "Trapezoid",
+  correct)
 }
 \arguments{
 \item{inputFunc}{Function to input into \code{tolTest} (function).}

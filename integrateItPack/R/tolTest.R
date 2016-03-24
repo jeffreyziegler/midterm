@@ -19,17 +19,17 @@
 #' @export
 # create generic for tolTest
 setGeneric(name = "tolTest",
-           def=function(inputFunc, a, b, tol=1e-8, rule="Trapezoid")
+           def=function(inputFunc, a, b, start=4, tol=1e-8, rule="Trapezoid", correct)
            {standardGeneric("tolTest")}
 )
 
 # create method
 setMethod(f="tolTest",
-          definition=function(inputFunc, a, b, tol=1e-8, rule="Trapezoid"){
+          definition=function(inputFunc, a, b, start=4, tol=1e-8, rule="Trapezoid", correct){
             # create initial n
-            n <- 4
+            n <- start
             # calculate h
-            h <- (b-a)/4
+            h <- (b-a)/n
             # retrieve x values from inputFunc
             x <- seq(a, b, by=h)
             y <- inputFunc(x)
@@ -71,7 +71,7 @@ setMethod(f="tolTest",
             }
             # return items in a list
             return(list(
-              "inputFunc" = inputFunc, "a" = a, "b" = b, "tol" = tol, "n" = n,
-              "absoluteError" = abs(sInitial - sPrior), rule = rule))
+              "inputFunc" = inputFunc, "a" = a, "b" = b, "start" = start, "tol" = tol,
+              "n" = n, "absoluteError" = abs(sInitial - sPrior), "rule" = rule, "correct" = s))
           }
 )

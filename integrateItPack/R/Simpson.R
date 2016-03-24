@@ -65,8 +65,10 @@ setMethod("initialize", "Simpson",
             .Object@b <- b
             .Object@rule <- "Simpson"
             # calculate numerical integral using Simpson's rule
-            y <- sort(yVec)
-            x <- sort(xVec)
+            # sort x and y vectors
+            ordering <- order(.Object@xVec)
+            x <- sort(.Object@xVec)
+            y <- .Object@yVec[ordering]
             # specify n
             n <- length(x[x>=a & x<=b])
             
@@ -104,7 +106,7 @@ setMethod(f="print",
             # check validity
             validObject(x)
             # print object of class Simpson
-            show(x)
+            show(x@s)
           }  
 )
 #' @export
@@ -115,8 +117,9 @@ setMethod(f="plot",
           # open print function
           definition=function(x=NULL, y=x, ...){
             # sort x and y vectors
-            yVec <- sort(x@yVec)
+            ordering <- order(x@xVec)
             xVec <- sort(x@xVec)
+            yVec <- x@yVec[ordering]
             # retain the number of subdivisions
             n <- x@n
             # check validity
@@ -125,8 +128,30 @@ setMethod(f="plot",
             # open plot
             plot(xVec, yVec,
                  # set limits of plot
-                 xlim = c(min(xVec) - 1, max(xVec) + 1), ylim = c(min(yVec)-1, max(yVec) + 5),
+                 xlim = c(x@a, x@b), ylim = c(min(yVec)-1, max(yVec) + 5),
                  # set labels of plot
                  xlab = "X", ylab = "f(x)", main = "Plot of function using Simpson's rule", pch=19)
+
+            # create n segments to show subdivisions
+            segments(xVec, rep(0,n), xVec, yVec, col="black", lty=2)
+            # add parabolas
+            # function to create (m, f (m))
+            for (i in seq(2, n, 2)){
+              # note the number of desired "points" for the lines to connect through
+              mid <- seq(from = xVec[i-1], to = xVec[i+1], length.out = n*3)
+              # define first component of p(x)
+              firstComponent <- yVec[i-1]*((mid-xVec[i])*(mid-xVec[i+1]))/
+                ((xVec[i-1]-xVec[i])*(xVec[i-1]-xVec[i+1]))
+              # define second component of p(x)
+              secondComponent <- yVec[i]*((mid-xVec[i-1])*(mid-xVec[i+1]))/
+                ((xVec[i]-xVec[i-1])*(xVec[i]-xVec[i+1]))
+              # define third component of p(x)
+              thirdComponent <- yVec[i+1]*((mid-xVec[i-1])*(mid-xVec[i]))/
+                ((xVec[i+1]-xVec[i-1])*(xVec[i+1]-xVec[i]))
+              # combine all components to yield p(x)
+              pX <- firstComponent + secondComponent + thirdComponent
+              # draw parabola lines, connecting 
+              lines(mid, pX, col="blue")
+            }
           }   
 )

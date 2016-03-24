@@ -69,8 +69,10 @@ setMethod("initialize", "Trapezoid",
             .Object@rule <- "Trapezoid"
             
             # put x and y values in order
-            y <- sort(yVec)
-            x <- sort(xVec)
+            ordering <- order(.Object@xVec)
+            x <- sort(.Object@xVec)
+            y <- .Object@yVec[ordering]
+            
             n <- length(x[x>=a & x<=b])
             # calculate numerical integral using the Trapezoid rule
             # determine h, assume a < b
@@ -97,7 +99,7 @@ setMethod(f="print",
             # check validity
             validObject(x)
             # print object of class Trapezoid
-            show(x)
+            show(x@s)
           }  
 )
 #' @export
@@ -108,8 +110,9 @@ setMethod(f="plot",
           # create function
           definition=function(x=NULL, y=x, ...){
             # sort x and y vectors
-            yVec <- sort(x@yVec)
+            ordering <- order(x@xVec)
             xVec <- sort(x@xVec)
+            yVec <- x@yVec[ordering]
             # retain the number of subdivisions
             n <- x@n
             # check validity
@@ -117,11 +120,11 @@ setMethod(f="plot",
             # open plot
             plot(xVec, yVec,
                  # set limits of plot
-                 xlim = c(min(xVec) - 1, max(xVec) + 1), ylim = c(min(yVec)-1, max(yVec) + 5),
+                 xlim = c(x@a, x@b), ylim = c(min(yVec)-1, max(yVec) + 5),
                  # set labels of plot
                  xlab = "X", ylab = "f(x)", main = "Plot of function using the Trapezoid rule", pch=19)
             # create trapezoid line overtop "function"
-            segments(xVec[1:n], yVec[1:n], yVec[2:n], yVec[2:n], col="blue")
+            segments(xVec[1:n-1], yVec[1:n-1], xVec[2:n], yVec[2:n], col="blue")
             # create n segments to show subdivisions
             segments(xVec, rep(0,n), xVec, yVec, col="black", lty=2)
           }  
