@@ -7,7 +7,8 @@
 #' @param yVec Vector containing x values (numeric vector).
 #' @param rule Clarify which rule, Simpson's or Trapezoid, will be used (character).
 #'
-#' @return An object of class 'Candidate' containing
+#' @return An object of class 'Simpson' or 'Trapezoid'
+#' 
 #' \itemize{
 #' \item \code{xVec} Vector containing x values (numeric vector).
 #' \item \code{yVec} Vector containing x values (numeric vector).

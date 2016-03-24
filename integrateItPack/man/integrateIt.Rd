@@ -15,7 +15,8 @@ integrateIt(xVec, yVec, a, b, rule)
 \item{rule}{Clarify which rule, Simpson's or Trapezoid, will be used (character).}
 }
 \value{
-An object of class 'Candidate' containing
+An object of class 'Simpson' or 'Trapezoid'
+
 \itemize{
 \item \code{xVec} Vector containing x values (numeric vector).
 \item \code{yVec} Vector containing x values (numeric vector).
